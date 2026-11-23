@@ -1,0 +1,15 @@
+# ALT'IN Terrain — réglages pour un hébergement Apache (LWS). Sans effet sur les autres hébergeurs.
+DirectoryIndex index.html
+
+# Types de fichiers que certains serveurs ne connaissent pas (sans eux : lecture des PDF et installation de l'appli en panne)
+AddType text/javascript .mjs
+AddType application/manifest+json .webmanifest
+
+<IfModule mod_headers.c>
+  # Outil interne : ne pas l'afficher dans les moteurs de recherche
+  Header set X-Robots-Tag "noindex, nofollow"
+  # Ces fichiers pilotent les mises à jour de l'appli : toujours servir la dernière version
+  <FilesMatch "^(index\.html|sw\.js|registerSW\.js|manifest\.webmanifest)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
